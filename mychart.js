@@ -1,6 +1,6 @@
 // 2) CSVから２次元配列に変換
 function csv2Array(str) {
-  var csvData = []//["timestamp", "ax", "ay", "az", "wx", "wy", "wz", "mx", "my", "mz", "lat", "lng", "yaw"];
+  var csvData = [];
   var lines = str.split("\n");
   for (var i = 0; i < lines.length; ++i) {
     var cells = lines[i].split(",");
@@ -49,20 +49,25 @@ function makeLineChart(data) {
     chart.data = generateChartData(data); //　追加
     console.log(chart.data);
     
-
-    
     // Create axes
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
 
-    xAxis.renderer.minGridDistance = 50;
+    //xAxis.renderer.minGridDistance = 150;
+    xAxis.title.text = "Time (sec)";
     
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    yAxis.title.text = "ax";
     
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY ="ax";//"visits";
-    series.dataFields.valueX = "timestamp";//"date";
+    series.dataFields.valueY ="ax";
+    series.dataFields.valueX = "timestamp";
 
+    // 軸ラベルの追加 済
+    // 軸の値を斜めに表示。
+    // 軸の値の表示感覚をあける。済
+    // 複数軸を追加。
+    // y軸方向も可変にする。済
     series.strokeWidth = 2;
     series.minBulletDistance = 10;
     series.tooltipText = "{valueY}";
@@ -70,10 +75,34 @@ function makeLineChart(data) {
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
     series.tooltip.label.padding(12,12,12,12)
-    
+
+
+    // Create y axis range
+    var range = yAxis.axisRanges.create();
+    //range.value = 0;
+    //range.endValue = 2000;
+    //range.label.text = "Score";
+    range.label.disabled = false;
+    //range.label.location = 1.5;
+    range.label.rotation = 270;
+    //range.label.fill = am4core.color("#0c0");
+    //range.label.adapter.add("horizontalCenter", function() {
+    //  return "middle";
+    //});
+
+    // Create x axis range
+    var range_x = xAxis.axisRanges.create();
+    //range_x.label.text = "time";
+    range_x.label.disabled = false;
+    //range_x.label.location = 1.5;
+    range_x.label.rotation = 0;
+
+
     // Add scrollbar
     chart.scrollbarX = new am4charts.XYChartScrollbar();
     chart.scrollbarX.series.push(series);
+    chart.scrollbarY = new am4charts.XYChartScrollbar();
+    chart.scrollbarY.series.push(series);
     
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
@@ -82,13 +111,13 @@ function makeLineChart(data) {
     
     function generateChartData(data) {
         var chartData = [];
-
+        const initial_time = data[0][0]
         for (var i = 0; i < 500; i++) {
     
             var data_line = data[i];
 
             chartData.push({
-              timestamp: data_line[0],
+              timestamp: (data_line[0]-initial_time)/1000000,
               ax: data_line[1],
               ay: data_line[2],
               az: data_line[3],
