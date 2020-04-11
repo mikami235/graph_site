@@ -52,17 +52,15 @@ function makeLineChart(data) {
 
     
     // Create axes
-    //var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     var xAxis = chart.xAxes.push(new am4charts.ValueAxis());
 
-    //dateAxis.renderer.minGridDistance = 50;
+    xAxis.renderer.minGridDistance = 50;
     
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY ="ax";//"visits";
-    //series.dataFields.dateX = "timestamp";//"timestamp";//"date";
     series.dataFields.valueX = "timestamp";//"date";
 
     series.strokeWidth = 2;
@@ -79,29 +77,16 @@ function makeLineChart(data) {
     
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = xAxis;//dateAxis;
+    chart.cursor.xAxis = xAxis;
     chart.cursor.snapToSeries = series;
     
     function generateChartData(data) {
         var chartData = [];
-        //var firstDate = new Date();
-        //firstDate.setDate(firstDate.getDate() - 1000);
-        //var visits = 1200;
+
         for (var i = 0; i < 500; i++) {
-            // we create date objects here. In your data, you can have date strings
-            // and then set format of your dates using chart.dataDateFormat property,
-            // however when possible, use date objects, as this will speed up chart rendering.
-            //var newDate = new Date(firstDate);
-            //newDate.setDate(newDate.getDate() + i);
-            
-            //visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
     
             var data_line = data[i];
 
-            //chartData.push({
-            //    date: newDate,
-            //    visits: visits
-            //});
             chartData.push({
               timestamp: data_line[0],
               ax: data_line[1],
@@ -118,8 +103,6 @@ function makeLineChart(data) {
               yaw: data_line[12]              
           });
         }
-        console.log(typeof chartData[20]);
-        console.log(chartData[20]);
 
         return chartData;
     }
