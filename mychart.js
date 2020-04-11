@@ -60,8 +60,10 @@ function makeLineChart(data) {
     
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY ="ax";
     series.dataFields.valueX = "timestamp";
+    series.dataFields.valueY ="ax";
+    series.name = "ax";
+
 
     // 軸ラベルの追加 済
     // 軸の値を斜めに表示。
@@ -76,6 +78,16 @@ function makeLineChart(data) {
     series.tooltip.background.fillOpacity = 0.5;
     series.tooltip.label.padding(12,12,12,12)
 
+    var series2 = chart.series.push(new am4charts.LineSeries());
+    series2.dataFields.valueX = "timestamp";
+    series2.dataFields.valueY = "ay";
+    series2.name = "ay";
+
+
+    var series3 = chart.series.push(new am4charts.LineSeries());
+    series3.dataFields.valueX = "timestamp";
+    series3.dataFields.valueY = "az";
+    series3.name = "az";
 
     // Create y axis range
     var range = yAxis.axisRanges.create();
@@ -101,14 +113,24 @@ function makeLineChart(data) {
     // Add scrollbar
     chart.scrollbarX = new am4charts.XYChartScrollbar();
     chart.scrollbarX.series.push(series);
+    chart.scrollbarX.series.push(series2);
+    chart.scrollbarX.series.push(series3);
     chart.scrollbarY = new am4charts.XYChartScrollbar();
     chart.scrollbarY.series.push(series);
+    chart.scrollbarY.series.push(series2);
+    chart.scrollbarY.series.push(series3);
     
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = xAxis;
+    chart.cursor.yAxis = yAxis;
     chart.cursor.snapToSeries = series;
+    chart.cursor.snapToSeries = series2;
+    chart.cursor.snapToSeries = series3;
     
+    // Add legend
+    chart.legend = new am4charts.Legend();
+
     function generateChartData(data) {
         var chartData = [];
         const initial_time = data[0][0]
