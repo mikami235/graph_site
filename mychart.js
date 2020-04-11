@@ -1,6 +1,6 @@
 // 2) CSVから２次元配列に変換
 function csv2Array(str) {
-  var csvData = [];
+  var csvData = []//["timestamp", "ax", "ay", "az", "wx", "wy", "wz", "mx", "my", "mz", "lat", "lng", "yaw"];
   var lines = str.split("\n");
   for (var i = 0; i < lines.length; ++i) {
     var cells = lines[i].split(",");
@@ -46,21 +46,23 @@ function makeLineChart(data) {
     console.log(data);
     console.log(typeof data);
     console.log(data[1][1]);
-    chart.data = generateChartData(); //　追加
+    chart.data = generateChartData(data); //　追加
     console.log(chart.data);
     
-    // ["timestamp", "ax", "ay", "az", "wx", "wy", "wz", "mx", "my", "mz", "lat", "lng", "yaw"]
+
     
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
+    //dateAxis.renderer.minGridDistance = 50;
     
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "visits";
-    series.dataFields.dateX = "date";
+    series.dataFields.valueY ="ax";//"visits";
+    series.dataFields.dateX = "ay";//"timestamp";//"date";
+    //series.dataFields.valueX = "timestamp";//"date";
+
     series.strokeWidth = 2;
     series.minBulletDistance = 10;
     series.tooltipText = "{valueY}";
@@ -78,7 +80,7 @@ function makeLineChart(data) {
     chart.cursor.xAxis = dateAxis;
     chart.cursor.snapToSeries = series;
     
-    function generateChartData() {
+    function generateChartData(data) {
         var chartData = [];
         var firstDate = new Date();
         firstDate.setDate(firstDate.getDate() - 1000);
@@ -92,11 +94,31 @@ function makeLineChart(data) {
             
             visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
     
+            var data_line = data[i];
+
+            //chartData.push({
+            //    date: newDate,
+            //    visits: visits
+            //});
             chartData.push({
-                date: newDate,
-                visits: visits
-            });
+              timestamp: data_line[0],
+              ax: data_line[1],
+              ay: data_line[2],
+              az: data_line[3],
+              wx: data_line[4],
+              wy: data_line[5],
+              wz: data_line[6],
+              mx: data_line[7],
+              my: data_line[8],
+              mz: data_line[9],
+              lat: data_line[10],
+              lng: data_line[11],
+              yaw: data_line[12]              
+          });
         }
+        console.log(typeof chartData[20]);
+        console.log(chartData[20]);
+
         return chartData;
     }
     
