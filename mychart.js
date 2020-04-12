@@ -139,7 +139,7 @@ function makeLineChart(data) {
             var data_line = data[i];
 
             chartData.push({
-              timestamp: (data_line[0]-initial_time)/1000000,
+              timestamp: (data_line[0]-initial_time)/1000,
               ax: data_line[1],
               ay: data_line[2],
               az: data_line[3],
