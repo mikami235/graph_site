@@ -53,8 +53,8 @@ function initMap(data) {
   
 　for(var i = 1; i < (index_length-1); i++) {
     location_line = mapdata[i];
-    console.log(i); 
-    console.log(location_line);  
+    //console.log(i); 
+    //console.log(location_line);  
     // Markerの初期設定
     var markerOpts = {
     position: {lat: Number(location_line.lat), lng: Number(location_line.lng)},

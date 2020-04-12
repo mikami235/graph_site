@@ -163,10 +163,10 @@ function makeLineChart(data) {
     });
 }
 
-function main() {
+function main(file_name) {
   // 1) ajaxでCSVファイルをロード
   var req = new XMLHttpRequest();
-  var filePath = 'acc_gyro.csv';
+  var filePath = file_name//'acc_gyro.csv';
   req.open("GET", filePath, true);
   req.onload = function() {
     // 2) CSVデータ変換の呼び出し
@@ -177,4 +177,14 @@ function main() {
   req.send(null);
 }
 
-main();
+/*
+form.myfile2.addEventListener( 'submit', function(e) {
+ 
+  //読み込んだファイル情報を取得
+  var result = e.target.files;
+
+  console.log( result );
+
+})
+*/
+main('acc_gyro.csv');
