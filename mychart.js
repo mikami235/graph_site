@@ -169,8 +169,7 @@ function main() {
   req.onload = function() {
     // 2) CSVデータ変換の呼び出し
     data = csv2Array(req.responseText);
-    // 3) chart.jsデータ準備、4) chart.js描画の呼び出し
-    //drawBarChart(data);
+    // 3) amChart.jsデータ準備、4) amChart.js描画の呼び出し
     makeLineChart(data);
   }
   req.send(null);
