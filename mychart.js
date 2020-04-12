@@ -133,8 +133,10 @@ function makeLineChart(data) {
 
     function generateChartData(data) {
         var chartData = [];
+        var index_length = Number(data.length);
         const initial_time = data[0][0]
-        for (var i = 0; i < 500; i++) {
+        console.log(index_length);
+        for (var i = 0; i < (index_length-1); i++) {
     
             var data_line = data[i];
 

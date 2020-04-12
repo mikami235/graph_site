@@ -13,7 +13,8 @@ function csv2Array(str) {
 function mapData(data) {
     var mapData = [];
     const initial_time = data[0][0]
-    for (var i = 0; i < 780; i++) {
+    var index_length = Number(data.length);
+    for (var i = 0; i < (index_length-1); i++) {
 
         var data_line = data[i];
 
@@ -40,7 +41,9 @@ function mapData(data) {
 function initMap(data) {
   var map;
   mapdata = mapData(data);
+  var index_length = Number(data.length);
   console.log(mapdata);
+  console.log(index_length);
   initial_loc = mapdata[0];
 
   map = new google.maps.Map(document.getElementById('map'), {
@@ -48,10 +51,10 @@ function initMap(data) {
     zoom: 15
   });
   
-　for(var i = 1; i < 780; i++) {
+　for(var i = 1; i < (index_length-1); i++) {
     location_line = mapdata[i];
-    console.log(i);
-    console.log(location_line.lat);
+    console.log(i); 
+    console.log(location_line);  
     // Markerの初期設定
     var markerOpts = {
     position: {lat: Number(location_line.lat), lng: Number(location_line.lng)},
